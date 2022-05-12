@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:cypress/recommended",
+    "airbnb",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "cypress"],
+  "rules": {
+    "jest/expect-expect": "off",
+    "func-names": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".js", ".jsx"] }
+    ],
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-alert": "off",
+    "no-shadow": "off",
+    "no-unused-vars": "off",
+    "radix": "off"
+  }
+}
