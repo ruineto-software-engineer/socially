@@ -30,6 +30,9 @@
     "no-alert": "off",
     "no-shadow": "off",
     "no-unused-vars": "off",
+    "class-methods-use-this": "off",
+    "react/jsx-no-bind": "off",
+    "consistent-return": "off",
     "radix": "off"
   }
 }
