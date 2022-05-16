@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 import useApi from "../../hooks/useApi";
@@ -28,15 +28,20 @@ export default function Register() {
   const api = useApi();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem("auth") !== null) navigate("/feed");
+  }, [navigate]);
+
   async function handleSubmit(e) {
     e.preventDefault();
-    setIsLoading(true);
 
     if (!password || !password || !email)
       return fireAlert("There are empty fields! Review and try again!");
 
     if (password !== confirmPassword)
       return fireAlert("Passwords do not match! Try again!");
+
+    setIsLoading(true);
 
     try {
       await api.user.register({ name, email, password });
@@ -102,7 +107,7 @@ export default function Register() {
         />
 
         <ButtonControl isloading={isLoading ? 1 : undefined} type="submit">
-          {isLoading ? <PulseLoader color="#FFFFFF" size={10} /> : "Sign up"}
+          {isLoading ? <PulseLoader color="#FFFFFF" size={10} /> : "Sign Up"}
         </ButtonControl>
         <CustomizedLink isloading={isLoading ? 1 : undefined} to="/">
           Switch back to log in

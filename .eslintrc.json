@@ -33,6 +33,10 @@
     "class-methods-use-this": "off",
     "react/jsx-no-bind": "off",
     "consistent-return": "off",
+    "react/jsx-no-constructed-context-values": "off",
+    "import/prefer-default-export": "off",
+    "react/no-unescaped-entities": "off",
+    "no-use-before-define": "off",
     "radix": "off"
   }
 }

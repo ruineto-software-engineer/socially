@@ -1,13 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login, Register } from "./pages";
+import { AuthProvider } from "./contexts";
+import { Login, Register, Feed } from "./pages";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/feed" element={<Feed />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

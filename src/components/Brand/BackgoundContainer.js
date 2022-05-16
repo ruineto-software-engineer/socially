@@ -7,6 +7,7 @@ const BackgoundContainer = styled.div`
   z-index: 1;
 
   width: 100vw;
+  height: 100vh;
 
   @media screen and (max-width: 650px) {
     img {
