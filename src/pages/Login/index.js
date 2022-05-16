@@ -29,7 +29,7 @@ export default function Login() {
       </BackgoundContainer>
 
       <FormContainer>
-        <InputControl type="text" placeholder="Email" required />
+        <InputControl type="email" placeholder="Email" required />
         <InputControl type="password" placeholder="Password" required />
 
         <ButtonControl type="submit">Sign In</ButtonControl>

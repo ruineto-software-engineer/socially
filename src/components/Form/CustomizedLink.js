@@ -7,7 +7,9 @@ const CustomizedLink = styled(Link)`
   font-style: normal;
   font-weight: 500;
   line-height: 24px;
-  color: #d4993d;
+  color: ${(props) => (props.isloading ? "#9e6c22" : "#d4993d")};
+
+  pointer-events: ${(props) => (props.isloading ? "none" : "all")};
 
   transition: all 0.5s ease-in-out;
 

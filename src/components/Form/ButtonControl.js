@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const ButtonControl = styled.button`
   border: none;
-  background: #4fa4b3;
+  background: ${(props) => (props.isloading ? "#306976" : "#4fa4b3")};
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.11);
   border-radius: 39.1416px;
 
@@ -18,6 +18,8 @@ const ButtonControl = styled.button`
   font-weight: 500;
   font-size: 15px;
   line-height: 19px;
+
+  pointer-events: ${(props) => (props.isloading ? "none" : "all")};
 
   color: #ffffff;
 

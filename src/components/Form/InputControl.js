@@ -2,9 +2,13 @@ import styled from "styled-components";
 
 const InputControl = styled.input`
   border: none;
-  background: #ffffff;
+  background: ${(props) => (props.isloading ? "#d3d3d3" : "#ffffff")};
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.11);
   border-radius: 39.1416px;
+
+  transition: all 0.5s ease-in-out;
+
+  pointer-events: ${(props) => (props.isloading ? "none" : "all")};
 
   height: 50px;
   width: 100%;
