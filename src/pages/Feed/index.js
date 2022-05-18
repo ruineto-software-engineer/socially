@@ -64,6 +64,12 @@ export default function Feed() {
       <button onClick={() => handleLogout(auth.userId)} type="button">
         Logout
       </button>
+      <button
+        onClick={() => navigate(`/profile/${auth.userId}/posts`)}
+        type="button"
+      >
+        Profile
+      </button>
     </>
   );
 }
