@@ -152,8 +152,7 @@ const ProfileImageContainer = styled.div`
 
 const ProfileImage = styled.div`
   filter: drop-shadow(0px 4px 15px rgba(0, 0, 0, 0.25));
-  border-radius: 50px;
-  transform: rotate(-45deg);
+  border-radius: 100px;
 
   width: 125px;
   height: 125px;
@@ -205,7 +204,7 @@ const Counter = styled.h2`
 `;
 
 const ProfileOptions = styled.div`
-  padding: 50px 0 30px 0;
+  padding: 50px 0 130px 0;
   width: 100vw;
 `;
 
