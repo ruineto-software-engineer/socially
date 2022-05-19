@@ -4,6 +4,20 @@ import Swal from "sweetalert2";
 import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
 import { fireAlert } from "../../utils/alerts";
+import feedbg from "../../assets/backdrops/feedbg.svg";
+import buttonLogout from "../../assets/icons/buttonLogout.svg";
+import Post from "../../components/Post";
+import {
+  Container,
+  ProfileBackdrops,
+  Feedbg,
+  Content,
+  Header,
+  BrandTitle,
+  ButtonLogout,
+  TitlePage,
+  PostsContainer,
+} from "./style";
 
 export default function Feed() {
   const { auth, logout } = useAuth();
@@ -58,18 +72,29 @@ export default function Feed() {
   }
 
   return (
-    <>
-      <p>{`I'm in Feed page, my name is ${auth?.name}`}</p>
-      <br />
-      <button onClick={() => handleLogout(auth.userId)} type="button">
-        Logout
-      </button>
-      <button
-        onClick={() => navigate(`/profile/${auth.userId}/posts`)}
-        type="button"
-      >
-        Profile
-      </button>
-    </>
+    <Container>
+      <ProfileBackdrops>
+        <Feedbg alt="feedbg.svg" src={feedbg} />
+      </ProfileBackdrops>
+
+      <Content>
+        <Header>
+          <BrandTitle>Socially</BrandTitle>
+
+          <ButtonLogout
+            onClick={() => handleLogout(auth?.userId)}
+            alt="buttonLogout.svg"
+            src={buttonLogout}
+          />
+        </Header>
+
+        <TitlePage>Feed</TitlePage>
+
+        <PostsContainer>
+          <Post padding={true ? 1 : undefined} />
+          <Post padding={false} />
+        </PostsContainer>
+      </Content>
+    </Container>
   );
 }

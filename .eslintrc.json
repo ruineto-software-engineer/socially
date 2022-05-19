@@ -38,6 +38,8 @@
     "react/no-unescaped-entities": "off",
     "no-use-before-define": "off",
     "no-console": "off",
+    "no-constant-condition": "off",
+    "react/jsx-no-useless-fragment": "off",
     "radix": "off"
   }
 }

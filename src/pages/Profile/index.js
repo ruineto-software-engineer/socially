@@ -3,10 +3,11 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import profilebg from "../../assets/backdrops/profilebg.svg";
 import buttonBack from "../../assets/icons/buttonBack.svg";
-import buttonPhotos from "../../assets/icons/buttonPhotos.svg";
-import buttonSaved from "../../assets/icons/buttonSaved.svg";
-import profileSettings from "../../assets/icons/profileSettings.svg";
+import profileDefaultPicture from "../../assets/backdrops/profileDefaultPicture.png";
 import userPosts from "../../assets/icons/userPosts.svg";
+/* import buttonPhotos from "../../assets/icons/buttonPhotos.svg"; */
+/* import buttonSaved from "../../assets/icons/buttonSaved.svg"; */
+/* import profileSettings from "../../assets/icons/profileSettings.svg"; */
 import {
   Container,
   Profilebg,
@@ -28,9 +29,9 @@ import {
   ProfileOptions,
   SelectSession,
   ButtonUserPosts,
-  ButtonPhotos,
-  ButtonSaved,
-  ButtonProfileSettings,
+  /* ButtonPhotos, */
+  /* ButtonSaved, */
+  /* ButtonProfileSettings, */
   ButtonFollow,
   LoadedContent,
 } from "./style";
@@ -66,7 +67,13 @@ export default function Profile() {
       <ProfileInfo>
         <ProfileIdentifier>
           <ProfileImageContainer />
-          <ProfileImage />
+          <ProfileImage
+            style={{
+              background: `no-repeat url(${profileDefaultPicture})`,
+              backgroundPosition: "center",
+              backgroundSize: "contain",
+            }}
+          />
 
           <ProfileName>
             <UserName>{auth.name}</UserName>
@@ -108,11 +115,11 @@ export default function Profile() {
           {/* <ButtonPhotos alt="buttonPhotos.svg" src={buttonPhotos} /> */}
           {/* <ButtonSaved alt="buttonSaved.svg" src={buttonSaved} /> */}
           {/*           
-          <ButtonProfileSettings
-            alt="profileSettings.svg"
-            src={profileSettings}
-          /> 
-          */}
+              <ButtonProfileSettings
+                alt="profileSettings.svg"
+                src={profileSettings}
+              /> 
+            */}
         </SelectSession>
 
         <LoadedContent>No posts yet...</LoadedContent>
