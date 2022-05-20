@@ -271,7 +271,7 @@ const ButtonFollow = styled.button`
 
   color: #ffffff;
 
-  display: flex;
+  display: ${(props) => (props.userId !== props.authUserId ? "flex" : "none")};
   align-items: center;
   justify-content: center;
 

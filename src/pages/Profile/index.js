@@ -230,7 +230,13 @@ export default function Profile() {
           justifyContent: "center",
         }}
       >
-        <ButtonFollow onClick={() => handleFollow()}>{follow}</ButtonFollow>
+        <ButtonFollow
+          userId={parseInt(userId)}
+          authUserId={auth.userId}
+          onClick={() => handleFollow()}
+        >
+          {follow}
+        </ButtonFollow>
       </div>
 
       <ProfileOptions>
