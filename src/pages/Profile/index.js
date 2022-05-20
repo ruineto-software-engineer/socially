@@ -54,8 +54,6 @@ export default function Profile() {
   const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
 
   useEffect(() => {
-    console.log(reload);
-
     handlePosts();
     handleMetrics();
     handleUser();
