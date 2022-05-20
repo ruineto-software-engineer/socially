@@ -8,42 +8,27 @@ import {
   PostImage,
 } from "./style";
 
-export default function Post({ padding }) {
+export default function Post({ description, url, name }) {
+  const isNoneUrl = url.indexOf("socially") === -1;
+  const isNoneDescription = description === "N/A";
+
   return (
-    <>
-      {padding ? (
-        <PostContent padding={true ? 1 : undefined}>
-          <PostHeader>
-            <UserImage
-              alt="profileDefaultPicture.svg"
-              src={profileDefaultPicture}
-            />
-            <UserName>Dennis Reynolds</UserName>
-          </PostHeader>
+    <PostContent url={isNoneUrl} description={isNoneDescription}>
+      <PostHeader>
+        <UserImage
+          alt="profileDefaultPicture.svg"
+          src={profileDefaultPicture}
+        />
+        <UserName>{name}</UserName>
+      </PostHeader>
 
-          <PostDescription>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
-            egestas nibh. Maecenas interdum ut leo quis malesuada. Donec sapien
-            augue, ornare condimentum vehicula vitae, congue non eros. Mauris
-            malesuada leo est, id feugiat diam dignissim vel. Proin eu cursus
-            tellus, vitae porta justo.
-          </PostDescription>
+      <PostDescription description={isNoneDescription}>
+        {description}
+      </PostDescription>
 
-          <PostImage />
-        </PostContent>
-      ) : (
-        <PostContent padding={false}>
-          <PostHeader>
-            <UserImage
-              alt="profileDefaultPicture.svg"
-              src={profileDefaultPicture}
-            />
-            <UserName>Charlie Kelly</UserName>
-          </PostHeader>
-
-          <PostImage />
-        </PostContent>
-      )}
-    </>
+      <PostImage url={isNoneUrl}>
+        <img alt="postImage*" src={url} />
+      </PostImage>
+    </PostContent>
   );
 }

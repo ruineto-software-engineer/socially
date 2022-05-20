@@ -7,7 +7,7 @@ const PostContent = styled.div`
 
   background-color: white;
 
-  padding: ${(props) => (props.padding ? "20px" : "0")};
+  padding: ${(props) => (!props.description ? "20px" : "0")};
 
   position: relative;
 
@@ -53,6 +53,8 @@ const UserName = styled.div`
 const PostDescription = styled.div`
   width: 100%;
 
+  display: ${(props) => props.description && "none"};
+
   margin: 55px 0 20px 0;
 
   font-family: "Poppins";
@@ -61,16 +63,23 @@ const PostDescription = styled.div`
   font-size: 12.8px;
   line-height: 19px;
 
+  text-align: left;
+
   color: #000000;
 `;
 
 const PostImage = styled.div`
+  display: ${(props) => !props.url && "none"};
+
   width: 100%;
-  height: 300px;
 
   border-radius: 20px;
 
-  background-color: lightgray;
+  img {
+    width: 100%;
+
+    border-radius: 20px;
+  }
 `;
 
 export {

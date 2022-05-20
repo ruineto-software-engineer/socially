@@ -1,6 +1,11 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import Swal from "sweetalert2";
+import useApi from "../../hooks/useApi";
+import { fireAlert } from "../../utils/alerts";
 import useAuth from "../../hooks/useAuth";
+import useReload from "../../hooks/useReload";
+import Post from "../../components/Post";
 import profilebg from "../../assets/backdrops/profilebg.svg";
 import buttonBack from "../../assets/icons/buttonBack.svg";
 import profileDefaultPicture from "../../assets/backdrops/profileDefaultPicture.png";
@@ -38,11 +43,121 @@ import {
 
 export default function Profile() {
   const { userId } = useParams();
-  const { auth } = useAuth();
+  const { auth, logout } = useAuth();
+  const { reload } = useReload();
+  const api = useApi();
+  const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState(null);
+  const [metrics, setMetrics] = useState(null);
   const [follow, setFollow] = useState("Follow");
   const navigate = useNavigate();
+  const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
 
-  console.log("userId:", userId);
+  useEffect(() => {
+    console.log(reload);
+
+    handlePosts();
+    handleMetrics();
+    handleUser();
+  }, [reload]);
+
+  async function handleUser() {
+    try {
+      const { data } = await api.user.getUserById(userId, headers);
+
+      setUser(data);
+    } catch (error) {
+      if (error.response.status === 401) {
+        Swal.fire({
+          title: "Oops...",
+          text: "Your session has expired, please login again to access!",
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleLogout(auth.userId);
+          }
+        });
+      } else {
+        if (!auth?.token)
+          return fireAlert("You need to be logged in to access!");
+
+        if (error.response.status === 404) {
+          fireAlert(error.response.data);
+          return navigate("/");
+        }
+
+        fireAlert(error.response.data);
+      }
+    }
+  }
+
+  async function handlePosts() {
+    try {
+      const { data } = await api.user.getPosts(auth?.userId, headers);
+
+      setPosts(data);
+    } catch (error) {
+      if (error.response.status === 401) {
+        Swal.fire({
+          title: "Oops...",
+          text: "Your session has expired, please login again to access!",
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleLogout(auth.userId);
+          }
+        });
+      } else {
+        if (!auth?.token)
+          return fireAlert("You need to be logged in to access!");
+
+        fireAlert(error.response.data);
+      }
+    }
+  }
+
+  async function handleMetrics() {
+    try {
+      const { data } = await api.user.getMetrics(auth?.userId, headers);
+
+      setMetrics(data);
+    } catch (error) {
+      if (error.response.status === 401) {
+        Swal.fire({
+          title: "Oops...",
+          text: "Your session has expired, please login again to access!",
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleLogout(auth.userId);
+          }
+        });
+      } else {
+        if (!auth?.token)
+          return fireAlert("You need to be logged in to access!");
+
+        fireAlert(error.response.data);
+      }
+    }
+  }
+
+  async function handleLogout(userId) {
+    try {
+      await api.auth.logout(userId);
+
+      logout();
+      navigate("/");
+    } catch (error) {
+      fireAlert(error.response.data);
+      navigate("/");
+    }
+  }
 
   function handleFollow() {
     if (follow === "Follow") {
@@ -51,6 +166,17 @@ export default function Profile() {
       setFollow("Follow");
     }
   }
+
+  const postsReader = posts?.map((post) => (
+    <Post
+      key={post.id}
+      description={post.description}
+      url={post.url}
+      name={post.user.name}
+    />
+  ));
+
+  if (!posts || !metrics || !user) return "Loading...";
 
   return (
     <Container>
@@ -76,7 +202,7 @@ export default function Profile() {
           />
 
           <ProfileName>
-            <UserName>{auth.name}</UserName>
+            <UserName>{user.name}</UserName>
             <UserNickName>@johndoe</UserNickName>
           </ProfileName>
         </ProfileIdentifier>
@@ -84,17 +210,17 @@ export default function Profile() {
         <ProfileDetails>
           <PostsDetails>
             <Title>Posts</Title>
-            <Counter>0</Counter>
+            <Counter>{metrics.posts}</Counter>
           </PostsDetails>
 
           <FollowersDetails>
             <Title>Followers</Title>
-            <Counter>0</Counter>
+            <Counter>{metrics.followers}</Counter>
           </FollowersDetails>
 
           <FollowsDetails>
             <Title>Follows</Title>
-            <Counter>0</Counter>
+            <Counter>{metrics.follows}</Counter>
           </FollowsDetails>
         </ProfileDetails>
       </ProfileInfo>
@@ -122,7 +248,9 @@ export default function Profile() {
             */}
         </SelectSession>
 
-        <LoadedContent>No posts yet...</LoadedContent>
+        <LoadedContent>
+          {posts.length !== 0 ? postsReader : "No posts yet..."}
+        </LoadedContent>
       </ProfileOptions>
     </Container>
   );

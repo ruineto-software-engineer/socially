@@ -91,8 +91,7 @@ export default function Feed() {
         <TitlePage>Feed</TitlePage>
 
         <PostsContainer>
-          <Post padding={true ? 1 : undefined} />
-          <Post padding={false} />
+          No activity here yet... Follow some users to interact!
         </PostsContainer>
       </Content>
     </Container>
