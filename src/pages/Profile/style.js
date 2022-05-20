@@ -206,6 +206,11 @@ const Counter = styled.h2`
 const ProfileOptions = styled.div`
   padding: 50px 0 130px 0;
   width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SelectSession = styled.div`
@@ -280,6 +285,14 @@ const ButtonFollow = styled.button`
 const LoadedContent = styled.div`
   text-align: center;
   margin-top: 30px;
+
+  width: 90%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
 `;
 
 export {

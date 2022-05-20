@@ -37,6 +37,9 @@ const Content = styled.div`
   padding: 0 20px 120px 20px;
 
   z-index: 1;
+
+  height: 100vh;
+  width: 100vw;
 `;
 
 const Header = styled.div`
