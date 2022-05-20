@@ -57,7 +57,7 @@ export default function Profile() {
     handlePosts();
     handleMetrics();
     handleUser();
-  }, [reload]);
+  }, [reload, userId]);
 
   async function handleUser() {
     try {
@@ -93,7 +93,7 @@ export default function Profile() {
 
   async function handlePosts() {
     try {
-      const { data } = await api.user.getPosts(auth?.userId, headers);
+      const { data } = await api.user.getPosts(userId, headers);
 
       setPosts(data);
     } catch (error) {
@@ -120,7 +120,7 @@ export default function Profile() {
 
   async function handleMetrics() {
     try {
-      const { data } = await api.user.getMetrics(auth?.userId, headers);
+      const { data } = await api.user.getMetrics(userId, headers);
 
       setMetrics(data);
     } catch (error) {
