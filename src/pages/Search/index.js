@@ -38,8 +38,6 @@ export default function Search() {
     }
   };
 
-  console.log("users: ", users);
-
   async function handleUsers() {
     try {
       const { data } = await api.user.getUsersByName(inputValue, headers);
