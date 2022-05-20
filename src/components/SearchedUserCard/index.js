@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import profileDefaultPicture from "../../assets/backdrops/profileDefaultPicture.png";
 import {
   SearchedUserCardContainer,
@@ -6,13 +7,17 @@ import {
   UserName,
 } from "./style";
 
-export default function SearchedUserCard() {
+export default function SearchedUserCard({ userName, userId }) {
+  const navigate = useNavigate();
+
   return (
-    <SearchedUserCardContainer>
+    <SearchedUserCardContainer
+      onClick={() => navigate(`/profile/${userId}/posts`)}
+    >
       <UserImageContainer />
       <UserImage alt="userImage*" src={profileDefaultPicture} />
 
-      <UserName>Malena Tudi</UserName>
+      <UserName>{userName}</UserName>
     </SearchedUserCardContainer>
   );
 }

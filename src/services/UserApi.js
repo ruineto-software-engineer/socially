@@ -16,4 +16,8 @@ export default class UserApi {
   getPosts(userId, headers) {
     return api.get(`/posts/${userId}`, headers);
   }
+
+  getUsersByName(userName, headers) {
+    return api.get(`/users/search/${userName}`, headers);
+  }
 }

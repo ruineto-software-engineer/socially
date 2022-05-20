@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import useApi from "../../hooks/useApi";
+import useAuth from "../../hooks/useAuth";
 import SearchedUserCard from "../../components/SearchedUserCard";
 import feedbg from "../../assets/backdrops/feedbg.svg";
 import buttonBack from "../../assets/icons/buttonBack.svg";
@@ -13,9 +17,81 @@ import {
   InputFilterControl,
   UsersContainer,
 } from "./style";
+import { fireAlert } from "../../utils/alerts";
 
 export default function Search() {
+  const { auth, logout } = useAuth();
+  const api = useApi();
   const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState("");
+  const [users, setUsers] = useState(null);
+  const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
+
+  const handleKeyDown = async (event) => {
+    if (event.key === "Enter") {
+      handleUsers();
+    }
+
+    if (event.key === "Escape") {
+      setUsers(null);
+      setInputValue("");
+    }
+  };
+
+  console.log("users: ", users);
+
+  async function handleUsers() {
+    try {
+      const { data } = await api.user.getUsersByName(inputValue, headers);
+
+      setUsers(data);
+    } catch (error) {
+      if (error.response.status === 401) {
+        Swal.fire({
+          title: "Oops...",
+          text: "Your session has expired, please login again to access!",
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleLogout(auth.userId);
+          }
+        });
+      } else {
+        if (!auth?.token)
+          return fireAlert("You need to be logged in to access!");
+
+        if (error.response.status === 400) {
+          setUsers(null);
+          setInputValue("");
+          return fireAlert(
+            "To search for a user correctly you must fill in the search field!"
+          );
+        }
+
+        if (error.response.status === 404) {
+          setUsers(null);
+          setInputValue("");
+          return fireAlert("User not found!");
+        }
+
+        fireAlert(error.response.data);
+      }
+    }
+  }
+
+  async function handleLogout(userId) {
+    try {
+      await api.auth.logout(userId);
+
+      logout();
+      navigate("/");
+    } catch (error) {
+      fireAlert(error.response.data);
+      navigate("/");
+    }
+  }
 
   return (
     <Container>
@@ -39,11 +115,22 @@ export default function Search() {
             backgroundRepeat: "no-repeat",
             backgroundColor: "white",
           }}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Search for users"
         />
 
         <UsersContainer>
-          <SearchedUserCard />
+          {!users?.length
+            ? "Search for other users by typing their name in the search field above!"
+            : users?.map((user) => (
+                <SearchedUserCard
+                  key={user.id}
+                  userName={user.name}
+                  userId={user.id}
+                />
+              ))}
         </UsersContainer>
       </Content>
     </Container>
