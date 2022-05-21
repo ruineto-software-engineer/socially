@@ -27,8 +27,18 @@ export default function Post({ description, url, name }) {
       </PostDescription>
 
       <PostImage url={isNoneUrl}>
-        <img alt="postImage*" src={url} />
+        {isImage(url) ? (
+          <img alt="postImage*" src={url} />
+        ) : (
+          <a target="_blank" href={url} rel="noreferrer">
+            Shared Link
+          </a>
+        )}
       </PostImage>
     </PostContent>
   );
+}
+
+function isImage(url) {
+  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
 }
