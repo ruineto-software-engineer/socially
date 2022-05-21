@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import PulseLoader from "react-spinners/PulseLoader";
 import Swal from "sweetalert2";
 import useApi from "../../hooks/useApi";
 import { fireAlert } from "../../utils/alerts";
@@ -44,12 +45,13 @@ import {
 export default function Profile() {
   const { userId } = useParams();
   const { auth, logout } = useAuth();
-  const { reload } = useReload();
+  const { reload, setReload } = useReload();
   const api = useApi();
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState(null);
   const [metrics, setMetrics] = useState(null);
-  const [follow, setFollow] = useState("Follow");
+  const [follow, setFollow] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
 
@@ -57,7 +59,46 @@ export default function Profile() {
     handlePosts();
     handleMetrics();
     handleUser();
+    handleFollowsStatus();
   }, [reload, userId]);
+
+  async function handleFollowsStatus() {
+    const followersData = {
+      followerId: auth?.userId,
+      followsId: parseInt(userId),
+    };
+
+    try {
+      const { data } = await api.user.getFollowsStatus(followersData, headers);
+
+      if (data) {
+        setFollow("Unfollow");
+        setReload(!reload);
+      } else {
+        setFollow("Follow");
+        setReload(!reload);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        Swal.fire({
+          title: "Oops...",
+          text: "Your session has expired, please login again to access!",
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleLogout(auth.userId);
+          }
+        });
+      } else {
+        if (!auth?.token)
+          return fireAlert("You need to be logged in to access!");
+
+        fireAlert(error.response.data);
+      }
+    }
+  }
 
   async function handleUser() {
     try {
@@ -145,6 +186,51 @@ export default function Profile() {
     }
   }
 
+  async function handleFollow() {
+    const followersData = {
+      followerId: auth?.userId,
+      followsId: parseInt(userId),
+    };
+
+    console.log("followersData: ", followersData);
+
+    setIsLoading(true);
+
+    try {
+      if (follow === "Follow") {
+        await api.user.followUser(followersData, headers);
+
+        setFollow("Unfollow");
+        setIsLoading(false);
+      } else {
+        await api.user.unfollowUser(followersData, headers);
+
+        setFollow("Follow");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      if (error.response.status === 401) {
+        Swal.fire({
+          title: "Oops...",
+          text: "Your session has expired, please login again to access!",
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleLogout(auth.userId);
+          }
+        });
+      } else {
+        if (!auth?.token)
+          return fireAlert("You need to be logged in to access!");
+
+        fireAlert(error.response.data);
+      }
+    }
+  }
+
   async function handleLogout(userId) {
     try {
       await api.auth.logout(userId);
@@ -157,14 +243,6 @@ export default function Profile() {
     }
   }
 
-  function handleFollow() {
-    if (follow === "Follow") {
-      setFollow("Unfollow");
-    } else {
-      setFollow("Follow");
-    }
-  }
-
   const postsReader = posts?.map((post) => (
     <Post
       key={post.id}
@@ -174,7 +252,7 @@ export default function Profile() {
     />
   ));
 
-  if (!posts || !metrics || !user) return "Loading...";
+  if (!posts || !metrics || !user || !follow) return "Loading...";
 
   return (
     <Container>
@@ -235,7 +313,7 @@ export default function Profile() {
           authUserId={auth.userId}
           onClick={() => handleFollow()}
         >
-          {follow}
+          {isLoading ? <PulseLoader color="#FFFFFF" size={10} /> : follow}
         </ButtonFollow>
       </div>
 

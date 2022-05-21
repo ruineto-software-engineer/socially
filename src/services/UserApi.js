@@ -20,4 +20,19 @@ export default class UserApi {
   getUsersByName(userName, headers) {
     return api.get(`/users/search/${userName}`, headers);
   }
+
+  followUser(followData, headers) {
+    return api.post("/follow", followData, headers);
+  }
+
+  unfollowUser(unfollowData, headers) {
+    return api.post("/unfollow", unfollowData, headers);
+  }
+
+  getFollowsStatus(followData, headers) {
+    return api.get(
+      `/follow/status?find=${JSON.stringify(followData)}`,
+      headers
+    );
+  }
 }
