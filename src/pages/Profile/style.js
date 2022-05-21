@@ -73,7 +73,7 @@ const UserNickName = styled.h3`
 
   color: #4e4e4e;
 
-  visibility: hidden;
+  /* visibility: hidden; */
 `;
 
 const ProfileDetails = styled.div`

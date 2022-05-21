@@ -192,8 +192,6 @@ export default function Profile() {
       followsId: parseInt(userId),
     };
 
-    console.log("followersData: ", followersData);
-
     setIsLoading(true);
 
     try {
@@ -279,7 +277,10 @@ export default function Profile() {
 
           <ProfileName>
             <UserName>{user.name}</UserName>
-            <UserNickName>@johndoe</UserNickName>
+            <UserNickName>{`@${user.name
+              .trim()
+              .replace(" ", "")
+              .toLowerCase()}`}</UserNickName>
           </ProfileName>
         </ProfileIdentifier>
 

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useApi from "../../hooks/useApi";
@@ -21,6 +21,7 @@ import {
 
 export default function Feed() {
   const { auth, logout } = useAuth();
+  const [posts, setPosts] = useState(null);
   const api = useApi();
   const navigate = useNavigate();
   const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
@@ -34,9 +35,13 @@ export default function Feed() {
     // eslint-disable-next-line
   }, []);
 
+  console.log("follows: ", posts);
+
   async function handlePosts() {
     try {
-      await api.posts.getAll(headers);
+      const { data } = await api.feed.getAll(auth?.userId, headers);
+
+      setPosts(data);
     } catch (error) {
       if (error.response.status === 401) {
         Swal.fire({
@@ -71,13 +76,24 @@ export default function Feed() {
     }
   }
 
+  const postsReader = posts?.map((post) => (
+    <Post
+      key={post.id}
+      description={post.description}
+      url={post.url}
+      name={post.user.name}
+    />
+  ));
+
+  if (!posts) return "Loading...";
+
   return (
     <Container>
       <ProfileBackdrops>
         <Feedbg alt="feedbg.svg" src={feedbg} />
       </ProfileBackdrops>
 
-      <Content>
+      <Content postsLength={posts?.length}>
         <Header>
           <BrandTitle>Socially</BrandTitle>
 
@@ -91,7 +107,9 @@ export default function Feed() {
         <TitlePage>Feed</TitlePage>
 
         <PostsContainer>
-          No activity here yet... Follow some users to interact!
+          {!posts.length
+            ? "No activity here yet... Follow some users to interact!"
+            : postsReader}
         </PostsContainer>
       </Content>
     </Container>

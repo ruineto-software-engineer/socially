@@ -97,7 +97,7 @@ export default function Search() {
         <Chatbg alt="feedbg.svg" src={feedbg} />
       </ProfileBackdrops>
 
-      <Content>
+      <Content usersLength={users?.length}>
         <ButtonBack
           onClick={() => navigate("/feed")}
           alt="buttonBack.svg"
