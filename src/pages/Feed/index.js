@@ -35,8 +35,6 @@ export default function Feed() {
     // eslint-disable-next-line
   }, []);
 
-  console.log("follows: ", posts);
-
   async function handlePosts() {
     try {
       const { data } = await api.feed.getAll(auth?.userId, headers);
