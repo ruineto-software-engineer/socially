@@ -73,10 +73,8 @@ export default function Profile() {
 
       if (data) {
         setFollow("Unfollow");
-        setReload(!reload);
       } else {
         setFollow("Follow");
-        setReload(!reload);
       }
     } catch (error) {
       if (error.response.status === 401) {
@@ -200,11 +198,13 @@ export default function Profile() {
 
         setFollow("Unfollow");
         setIsLoading(false);
+        setReload(!reload);
       } else {
         await api.user.unfollowUser(followersData, headers);
 
         setFollow("Follow");
         setIsLoading(false);
+        setReload(!reload);
       }
     } catch (error) {
       setIsLoading(false);
