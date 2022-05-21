@@ -38,8 +38,8 @@ const Content = styled.div`
 
   z-index: 1;
 
-  height: 100vh;
   width: 100vw;
+  height: ${(props) => props.postsLength <= 1 && "100vh"};
 `;
 
 const Header = styled.div`

@@ -39,7 +39,8 @@ const Content = styled.div`
   z-index: 1;
 
   width: 100vw;
-  height: 100vh; /* valid only reader length 1 or 0 - Desktop */
+  height: ${(props) =>
+    (props.usersLength <= 3 || !props.usersLength) && "100vh"};
 `;
 
 const ButtonBack = styled.img`
