@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { fireAlert } from "../../utils/alerts";
 import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
 import SearchedUserCard from "../../components/SearchedUserCard";
@@ -17,7 +18,6 @@ import {
   InputFilterControl,
   UsersContainer,
 } from "./style";
-import { fireAlert } from "../../utils/alerts";
 
 export default function Search() {
   const { auth, logout } = useAuth();

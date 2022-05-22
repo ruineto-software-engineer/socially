@@ -40,6 +40,7 @@
     "no-console": "off",
     "no-constant-condition": "off",
     "react/jsx-no-useless-fragment": "off",
+    "no-nested-ternary": "off",
     "radix": "off"
   }
 }
