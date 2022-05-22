@@ -27,6 +27,7 @@ export default function Chats() {
   const [inputValue, setInputValue] = useState("");
   const [contacts, setContacts] = useState(null);
   const [filteredContacts, setFilteredContacts] = useState(null);
+  const [length, setLength] = useState(null);
   const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
 
   useEffect(() => {
@@ -50,6 +51,7 @@ export default function Chats() {
       const { data } = await api.chat.getAllContacts(userId, headers);
 
       setContacts(data);
+      setLength(data.length);
     } catch (error) {
       if (error.response.status === 401) {
         Swal.fire({
@@ -85,6 +87,7 @@ export default function Chats() {
       );
 
       setFilteredContacts(data);
+      setLength(data.length);
     } catch (error) {
       if (error.response.status === 401) {
         Swal.fire({
@@ -153,7 +156,7 @@ export default function Chats() {
         <Chatbg alt="feedbg.svg" src={feedbg} />
       </ProfileBackdrops>
 
-      <Content contactsLength={contacts?.length}>
+      <Content contactsLength={length}>
         <ButtonBack
           onClick={() => navigate("/feed")}
           alt="buttonBack.svg"
