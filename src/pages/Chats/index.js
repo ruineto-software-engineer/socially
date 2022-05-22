@@ -80,7 +80,7 @@ export default function Chats() {
     try {
       const { data } = await api.chat.getContactsByName(
         userId,
-        inputValue,
+        inputValue.toLowerCase(),
         headers
       );
 
