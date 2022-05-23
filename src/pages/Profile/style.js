@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const Container = styled.div`
+  height: 510px;
+
   @media screen and (min-width: 700px) {
     background: radial-gradient(
       89.56% 89.56% at 67.09% 9.5%,
@@ -72,8 +74,6 @@ const UserNickName = styled.h3`
   line-height: 24px;
 
   color: #4e4e4e;
-
-  /* visibility: hidden; */
 `;
 
 const ProfileDetails = styled.div`

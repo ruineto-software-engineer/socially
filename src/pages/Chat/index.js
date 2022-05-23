@@ -7,7 +7,6 @@ import buttonBack from "../../assets/icons/buttonBack.svg";
 import profileDefaultPicture from "../../assets/backdrops/profileDefaultPicture.png";
 import Message from "./Message";
 import {
-  Container,
   ChatBackdropsContainer,
   ChatBackdrops,
   Chatbg,
@@ -25,7 +24,6 @@ import {
   ButtonSend,
   ButtonSendContent,
   ChatContainer,
-  ChatContent,
 } from "./style";
 
 export default function Chat() {
@@ -36,7 +34,7 @@ export default function Chat() {
   console.log("recipientId: ", recipientId);
 
   return (
-    <Container>
+    <div>
       <ChatBackdropsContainer>
         <ChatBackdrops>
           <Chatbg alt="chatbg.svg" src={chatbg} />
@@ -64,30 +62,28 @@ export default function Chat() {
       </ChatBackdropsContainer>
 
       <ChatContainer>
-        <ChatContent>
-          <Message recipient message="Oi" />
-          <Message recipient message="Lorem" />
-          <Message
-            recipient={false}
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
-          />
-          <Message
-            recipient={false}
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
-          />
-          <Message
-            recipient={false}
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
-          />
-          <Message
-            recipient
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
-          />
-          <Message
-            recipient
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
-          />
-        </ChatContent>
+        <Message recipient message="Oi" />
+        <Message recipient message="Lorem" />
+        <Message
+          recipient={false}
+          message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
+        />
+        <Message
+          recipient={false}
+          message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
+        />
+        <Message
+          recipient={false}
+          message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
+        />
+        <Message
+          recipient
+          message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
+        />
+        <Message
+          recipient
+          message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pellentesque purus ut ex dictum pharetra. Integer eget eleifend lacus. Aliquam erat volutpat. Integer dignissim massa leo. Nunc dignissim feugiat molestie. Duis ipsum orci, suscipit eget ullamcorper sit amet, elementum ac massa. Donec sed consectetur nisl. Pellentesque in quam mi. Duis porta facilisis est, eu suscipit nunc laoreet ac. Nulla cursus odio turpis, eget posuere nisi euismod eget. Aliquam erat volutpat."
+        />
       </ChatContainer>
 
       <InputControlContainer>
@@ -98,6 +94,6 @@ export default function Chat() {
 
         <InputControl placeholder="Write a message..." />
       </InputControlContainer>
-    </Container>
+    </div>
   );
 }
