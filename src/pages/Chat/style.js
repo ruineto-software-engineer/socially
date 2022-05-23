@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-const Container = styled.div``;
-
 const ChatBackdropsContainer = styled.div`
   position: fixed;
   top: 0;
@@ -18,6 +16,8 @@ const ChatBackdrops = styled.div`
   justify-content: center;
 
   position: absolute;
+
+  background-color: #ffffff;
 `;
 
 const Chatbg = styled.img`
@@ -213,41 +213,34 @@ const ButtonSend = styled.img`
 `;
 
 const ChatContainer = styled.div`
-  height: 81vh;
+  height: 100vh;
   width: 100vw;
-
-  position: absolute;
-
-  @media screen and (min-width: 700px) {
-    height: 0;
-  }
-`;
-
-const ChatContent = styled.div`
-  padding: 10px;
 
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: scroll;
 
-  height: 294px;
-  width: 100%;
+  padding: 300px 10px 122px 10px;
 
-  position: relative;
-  top: 300px;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
 
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-  @media screen and (min-width: 700px) {
-    height: 265px;
-    top: 250px;
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: transparent;
   }
 `;
 
 export {
-  Container,
   ChatBackdropsContainer,
   ChatBackdrops,
   Chatbg,
@@ -265,5 +258,4 @@ export {
   ButtonSend,
   ButtonSendContent,
   ChatContainer,
-  ChatContent,
 };
