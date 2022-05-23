@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import useApi from "../../hooks/useApi";
@@ -38,6 +38,7 @@ export default function Chat() {
   const [recipient, setRecipient] = useState(null);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState(null);
+  const messageScroll = useRef(null);
   const navigate = useNavigate();
   const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
 
@@ -47,12 +48,9 @@ export default function Chat() {
     handleMessages();
   }, []);
 
-  console.log("messages: ", messages);
-
   const handleKeyDown = async (event) => {
     if (event.key === "Enter") {
       handleSendMessage();
-      setMessage("");
     }
 
     if (event.key === "Escape") {
@@ -100,6 +98,14 @@ export default function Chat() {
 
     try {
       await api.chat.sendMessage(messageData, headers);
+
+      setMessage("");
+
+      messageScroll.current.scrollTo({
+        top: messageScroll.current.scrollHeight,
+        left: 0,
+        behavior: "smooth",
+      });
     } catch (error) {
       if (error.response.status === 401) {
         Swal.fire({
@@ -235,7 +241,7 @@ export default function Chat() {
         </RecipientContainer>
       </ChatBackdropsContainer>
 
-      <ChatContainer>
+      <ChatContainer ref={messageScroll}>
         {!messagesReader?.length ? (
           <FeedBack>Send a "Hello" to your contact!</FeedBack>
         ) : (
@@ -244,7 +250,7 @@ export default function Chat() {
       </ChatContainer>
 
       <InputControlContainer>
-        <ButtonSendContent>
+        <ButtonSendContent onClick={() => handleSendMessage()}>
           <ButtonSendContainer />
           <ButtonSend alt="buttonSend.svg" src={buttonSend} />
         </ButtonSendContent>
