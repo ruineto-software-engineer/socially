@@ -240,6 +240,18 @@ const ChatContainer = styled.div`
   }
 `;
 
+const FeedBack = styled.p`
+  text-align: center;
+
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: #656565;
+`;
+
 export {
   ChatBackdropsContainer,
   ChatBackdrops,
@@ -258,4 +270,5 @@ export {
   ButtonSend,
   ButtonSendContent,
   ChatContainer,
+  FeedBack,
 };
