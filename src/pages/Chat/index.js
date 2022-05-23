@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { io } from "socket.io-client";
 import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
 import chatbg from "../../assets/backdrops/chatbg.svg";
@@ -41,6 +42,7 @@ export default function Chat() {
   const messageScroll = useRef(null);
   const navigate = useNavigate();
   const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
+  const socket = io(process.env.REACT_APP_API_BASE_URL);
 
   useEffect(() => {
     handleStatus();
@@ -106,6 +108,8 @@ export default function Chat() {
         left: 0,
         behavior: "smooth",
       });
+
+      socket.emit("sendMensage", messageData);
     } catch (error) {
       if (error.response.status === 401) {
         Swal.fire({
@@ -210,6 +214,10 @@ export default function Chat() {
       recipient={message.senderId !== auth?.userId}
     />
   ));
+
+  socket.on("receivedMessage", () => {
+    handleMessages();
+  });
 
   if (!messages) return "Loading...";
 

@@ -3,6 +3,10 @@ import styled from "styled-components";
 const MessageContainer = styled.div`
   display: flex;
   justify-content: ${(props) => (props.recipient ? "flex-start" : "flex-end")};
+
+  &:last-of-type {
+    padding-bottom: 80px;
+  }
 `;
 
 const MessageContent = styled.div`
