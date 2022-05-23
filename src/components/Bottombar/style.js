@@ -2,7 +2,11 @@ import styled from "styled-components";
 
 const BottonBar = styled.div`
   display: ${(props) =>
-    props.pathname === "/" || props.pathname === "/register" ? "none" : "flex"};
+    props.pathname === "/" ||
+    props.pathname === "/register" ||
+    props.pathname.includes("/chat/")
+      ? "none"
+      : "flex"};
   align-items: center;
   justify-content: center;
   gap: 50px;

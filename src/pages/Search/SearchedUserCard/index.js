@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import profileDefaultPicture from "../../assets/backdrops/profileDefaultPicture.png";
+import profileDefaultPicture from "../../../assets/backdrops/profileDefaultPicture.png";
 import {
   SearchedUserCardContainer,
   UserImageContainer,

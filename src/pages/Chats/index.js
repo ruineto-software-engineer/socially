@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { fireAlert } from "../../utils/alerts";
 import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
-import SearchedUserCard from "../../components/SearchedUserCard";
+import ChatContactCard from "./ChatContactCard";
 import feedbg from "../../assets/backdrops/feedbg.svg";
 import buttonBack from "../../assets/icons/buttonBack.svg";
 import search from "../../assets/icons/search.svg";
@@ -133,18 +133,18 @@ export default function Chats() {
   }
 
   const contactsReader = contacts?.map((contact) => (
-    <SearchedUserCard
+    <ChatContactCard
       key={contact.id}
       userName={contact.name}
-      userId={contact.id}
+      recipientId={contact.id}
     />
   ));
 
   const filteredContactsReader = filteredContacts?.map((contact) => (
-    <SearchedUserCard
+    <ChatContactCard
       key={contact.id}
       userName={contact.name}
-      userId={contact.id}
+      recipientId={contact.id}
     />
   ));
 
