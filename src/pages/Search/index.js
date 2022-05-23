@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { fireAlert } from "../../utils/alerts";
 import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
-import SearchedUserCard from "../../components/SearchedUserCard";
+import SearchedUserCard from "./SearchedUserCard";
 import feedbg from "../../assets/backdrops/feedbg.svg";
 import buttonBack from "../../assets/icons/buttonBack.svg";
 import search from "../../assets/icons/search.svg";
