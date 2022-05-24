@@ -138,6 +138,8 @@ const InputControlContainer = styled.div`
   width: 100%;
 
   padding: 30px;
+
+  pointer-events: ${(props) => (props.waitTime ? "none" : "all")};
 `;
 
 const InputControl = styled.input`
@@ -148,7 +150,12 @@ const InputControl = styled.input`
 
   padding: 30px 95px 30px 30px;
 
-  background: #ffffff;
+  transition: all 0.5s ease-in-out;
+
+  pointer-events: ${(props) => (props.waitTime ? "none" : "all")};
+  background: ${(props) => (props.waitTime ? "#c4c4c4" : "#ffffff")};
+  outline: ${(props) => props.waitTime && "none"};
+
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.13);
   border-radius: 39.1416px;
 
@@ -181,7 +188,9 @@ const ButtonSendContent = styled.div`
 
   transition: all 0.5s ease-in-out;
 
-  background: #000000;
+  pointer-events: ${(props) => (props.waitTime ? "none" : "all")};
+  background: ${(props) => (props.waitTime ? "#656565" : "#000000")};
+
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
   border-radius: 23px;
   transform: matrix(0.71, -0.69, 0.73, 0.71, 0, 0);

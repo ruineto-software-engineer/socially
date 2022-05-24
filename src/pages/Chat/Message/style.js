@@ -5,7 +5,7 @@ const MessageContainer = styled.div`
   justify-content: ${(props) => (props.recipient ? "flex-start" : "flex-end")};
 
   &:last-of-type {
-    padding-bottom: 80px;
+    padding-bottom: 10px;
   }
 `;
 
