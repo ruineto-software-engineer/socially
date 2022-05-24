@@ -54,12 +54,7 @@ export default function Chat() {
   }, []);
 
   useEffect(() => {
-    const socket = io(process.env.REACT_APP_API_BASE_URL, {
-      withCredentials: true,
-      extraHeaders: {
-        "my-custom-header": "abcd",
-      },
-    });
+    const socket = io(process.env.REACT_APP_API_BASE_URL);
     socket.connect();
     socket.on("receivedMessage", handleMessages);
 
