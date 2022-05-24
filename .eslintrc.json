@@ -41,6 +41,7 @@
     "no-constant-condition": "off",
     "react/jsx-no-useless-fragment": "off",
     "no-nested-ternary": "off",
+    "no-lonely-if": "off",
     "radix": "off"
   }
 }
