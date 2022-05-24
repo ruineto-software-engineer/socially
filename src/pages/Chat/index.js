@@ -54,7 +54,9 @@ export default function Chat() {
   }, []);
 
   useEffect(() => {
-    const socket = io(process.env.REACT_APP_API_BASE_URL);
+    const socket = io(process.env.REACT_APP_API_BASE_URL, {
+      withCredentials: true,
+    });
     socket.connect();
     socket.on("receivedMessage", handleMessages);
 
