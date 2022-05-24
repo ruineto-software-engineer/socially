@@ -36,23 +36,29 @@ export default function Chat() {
   const { auth, logout } = useAuth();
   const api = useApi();
   const { recipientId } = useParams();
-  const { reload, setReload } = useReload();
   const [status, setStatus] = useState(null);
   const [recipient, setRecipient] = useState(null);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState(null);
   const [waitTime, setWaitTime] = useState(false);
-  const [messageCounter, setMessageCounter] = useState(0);
+  const { reload, setReload } = useReload();
   const messageScroll = useRef(null);
   const messageInputRef = useRef(null);
   const navigate = useNavigate();
   const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
-  const socket = io(process.env.REACT_APP_API_BASE_URL);
 
   useEffect(() => {
     handleStatus();
     handleRecipient();
     handleMessages();
+  }, []);
+
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_API_BASE_URL);
+    socket.connect();
+    socket.on("receivedMessage", handleMessages);
+
+    socket.emit("sendMensage", message);
   }, [reload]);
 
   const handleKeyDown = async (event) => {
@@ -110,11 +116,11 @@ export default function Chat() {
     try {
       if (!waitTime) {
         await api.chat.sendMessage(messageData, headers);
+
+        setReload(!reload);
       } else {
         return;
       }
-
-      socket.emit("sendMensage", messageData.message);
 
       setMessage("");
 
@@ -235,7 +241,7 @@ export default function Chat() {
 
   if (messagesReader.length) {
     setTimeout(() => {
-      messageInputRef.current.focus();
+      messageInputRef?.current.focus();
 
       messageScroll.current.scrollTo({
         top: messageScroll.current.scrollHeight,
@@ -254,16 +260,6 @@ export default function Chat() {
       setWaitTime(false);
     }, 2000);
   }
-
-  if (messageCounter === 3) window.location.reload(true);
-
-  socket.on("receivedMessage", (message) => {
-    const updatedMessageCounter = messageCounter + 1;
-    setMessageCounter(updatedMessageCounter);
-
-    handleMessages();
-    setReload(!reload);
-  });
 
   return (
     <div>
