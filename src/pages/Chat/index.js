@@ -268,6 +268,15 @@ export default function Chat() {
     }, 2000);
   }
 
+  function handleBackPage() {
+    setResponseTime(false);
+
+    setTimeout(() => {
+      setWaitTime(true);
+      navigate(`/chats/${auth?.userId}`);
+    }, 1000);
+  }
+
   return (
     <div>
       <ChatBackdropsContainer>
@@ -277,7 +286,7 @@ export default function Chat() {
         </ChatBackdrops>
 
         <ButtonBack
-          onClick={() => navigate(`/chats/${auth?.userId}`)}
+          onClick={() => handleBackPage()}
           alt="buttonBack.svg"
           src={buttonBack}
         />
