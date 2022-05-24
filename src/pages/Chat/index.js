@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { io } from "socket.io-client";
+import { fireAlert } from "../../utils/alerts";
+import useReload from "../../hooks/useReload";
 import useApi from "../../hooks/useApi";
 import useAuth from "../../hooks/useAuth";
 import chatbg from "../../assets/backdrops/chatbg.svg";
@@ -29,17 +31,20 @@ import {
   ChatContainer,
   FeedBack,
 } from "./style";
-import { fireAlert } from "../../utils/alerts";
 
 export default function Chat() {
   const { auth, logout } = useAuth();
   const api = useApi();
   const { recipientId } = useParams();
+  const { reload, setReload } = useReload();
   const [status, setStatus] = useState(null);
   const [recipient, setRecipient] = useState(null);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState(null);
+  const [waitTime, setWaitTime] = useState(false);
+  const [messageCounter, setMessageCounter] = useState(0);
   const messageScroll = useRef(null);
+  const messageInputRef = useRef(null);
   const navigate = useNavigate();
   const headers = { headers: { Authorization: `Bearer ${auth?.token}` } };
   const socket = io(process.env.REACT_APP_API_BASE_URL);
@@ -48,11 +53,15 @@ export default function Chat() {
     handleStatus();
     handleRecipient();
     handleMessages();
-  }, []);
+  }, [reload]);
 
   const handleKeyDown = async (event) => {
     if (event.key === "Enter") {
-      handleSendMessage();
+      if (!waitTime) {
+        handleSendMessage();
+      } else {
+        return setMessage("");
+      }
     }
 
     if (event.key === "Escape") {
@@ -99,7 +108,13 @@ export default function Chat() {
     };
 
     try {
-      await api.chat.sendMessage(messageData, headers);
+      if (!waitTime) {
+        await api.chat.sendMessage(messageData, headers);
+      } else {
+        return;
+      }
+
+      socket.emit("sendMensage", messageData.message);
 
       setMessage("");
 
@@ -109,7 +124,8 @@ export default function Chat() {
         behavior: "smooth",
       });
 
-      socket.emit("sendMensage", messageData);
+      setWaitTime(true);
+      messageInputRef.current.focus();
     } catch (error) {
       if (error.response.status === 401) {
         Swal.fire({
@@ -215,11 +231,39 @@ export default function Chat() {
     />
   ));
 
-  socket.on("receivedMessage", () => {
-    handleMessages();
-  });
-
   if (!messages) return "Loading...";
+
+  if (messagesReader.length) {
+    setTimeout(() => {
+      messageInputRef.current.focus();
+
+      messageScroll.current.scrollTo({
+        top: messageScroll.current.scrollHeight,
+        left: 0,
+        behavior: "smooth",
+      });
+    }, 1000);
+  } else {
+    setTimeout(() => {
+      messageInputRef.current.focus();
+    }, 1000);
+  }
+
+  if (waitTime) {
+    setTimeout(() => {
+      setWaitTime(false);
+    }, 2000);
+  }
+
+  if (messageCounter === 3) window.location.reload(true);
+
+  socket.on("receivedMessage", (message) => {
+    const updatedMessageCounter = messageCounter + 1;
+    setMessageCounter(updatedMessageCounter);
+
+    handleMessages();
+    setReload(!reload);
+  });
 
   return (
     <div>
@@ -257,17 +301,22 @@ export default function Chat() {
         )}
       </ChatContainer>
 
-      <InputControlContainer>
-        <ButtonSendContent onClick={() => handleSendMessage()}>
+      <InputControlContainer waitTime={waitTime}>
+        <ButtonSendContent
+          waitTime={waitTime}
+          onClick={() => handleSendMessage()}
+        >
           <ButtonSendContainer />
           <ButtonSend alt="buttonSend.svg" src={buttonSend} />
         </ButtonSendContent>
 
         <InputControl
+          waitTime={waitTime}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Write a message..."
+          ref={messageInputRef}
         />
       </InputControlContainer>
     </div>
