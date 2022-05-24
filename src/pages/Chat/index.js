@@ -41,6 +41,7 @@ export default function Chat() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState(null);
   const [waitTime, setWaitTime] = useState(false);
+  const [responseTime, setResponseTime] = useState(false);
   const { reload, setReload } = useReload();
   const messageScroll = useRef(null);
   const messageInputRef = useRef(null);
@@ -84,7 +85,9 @@ export default function Chat() {
       );
 
       setMessages(data);
+      setResponseTime(true);
     } catch (error) {
+      setResponseTime(false);
       if (error.response.status === 401) {
         Swal.fire({
           title: "Oops...",
@@ -240,19 +243,23 @@ export default function Chat() {
   if (!messages) return "Loading...";
 
   if (messagesReader.length) {
-    setTimeout(() => {
-      messageInputRef?.current.focus();
+    if (responseTime) {
+      setTimeout(() => {
+        messageInputRef?.current.focus();
 
-      messageScroll.current.scrollTo({
-        top: messageScroll.current.scrollHeight,
-        left: 0,
-        behavior: "smooth",
-      });
-    }, 1000);
+        messageScroll.current.scrollTo({
+          top: messageScroll.current.scrollHeight,
+          left: 0,
+          behavior: "smooth",
+        });
+      }, 2000);
+    }
   } else {
-    setTimeout(() => {
-      messageInputRef.current.focus();
-    }, 1000);
+    if (responseTime) {
+      setTimeout(() => {
+        messageInputRef.current.focus();
+      }, 2000);
+    }
   }
 
   if (waitTime) {
