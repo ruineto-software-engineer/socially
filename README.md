@@ -18,7 +18,7 @@
   <p align="center">
     A social network app!
     <br />    
-    <a href="https://socially-ruineto-dev.vercel.app/">
+    <a href="https://github.com/ruineto-dev/socially">
       <strong>Explore the docs »</strong>
     </a> 
     <br />
